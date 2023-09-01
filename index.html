@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div id="container">
+        <img id="casino_img" src="images/emoji_game2.png" alt="casino game">
+        <div id="money_rain_div">
+            <img id="moneyrain_gif" src="images/raining_money.gif" alt="raining money">
+        </div>
+        <div id="middle_div">
+            <img class="win_img" src="images/win_left.png" alt="win">
+            <div id="numbers_div">
+                <ul id="numbers_ul">
+                </ul>
+            </div>
+            <img class="win_img" src="images/win_right.png" alt="win">
+        </div>
+        
+        <div id="money_div">
+            <div id="balance_div">
+                <p id="balance_p">BALANCE : <span id="balance_span"></span></p>
+            </div>
+            <div id="bet_div">
+                <label for="bet_num" id="bet_num_label">BET : </label>
+                <input type="number" name="bet_num" id="bet_num">
+            </div>
+        </div>
+        
+        <button id="play_btn">PLAY</button>
+        <div id="autospin_div">
+            <button id="autospin_btn">AUTOSPIN</button>
+            <input type="number" name="autospin_num" id="autospin_num">
+        </div>
+        
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
