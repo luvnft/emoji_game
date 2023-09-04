@@ -8,6 +8,8 @@ const numbers_li=document.getElementById("numbers_li");
 const container_div=document.getElementById("container");
 const money_rain_div=document.getElementById("money_rain_div");
 const autospin_num=document.getElementById("autospin_num");
+const all_num_input = document.querySelectorAll('input[type="number"]');
+const spins_span=document.getElementById("spins_span");
 
 const win_rate=1.2;
 const lose_rate=1;
@@ -23,6 +25,7 @@ let idozito;
 let balanceIdozito;
 let autospin_value;
 let autospins;
+let spin_counter;
 
 const emoji_array=[];
 emoji_array.length=25;
@@ -30,13 +33,29 @@ emoji_array_length=emoji_array.length;
 
 
 // load functions on page load
-document.addEventListener("DOMContentLoaded", function() {              
+document.addEventListener("DOMContentLoaded", function() {
     hideMoneyRain();
     hideWinImage();
     listItemGenerator();
     balance_span.textContent=`${balance}$`;
     bet_number.value=bet;
+    autospin_num.value=0;
+    spin_counter=0;
+    numInputsEventListeners();
+    numInput_amountChecker();
 });
+
+function numInputsEventListeners(){
+    Array.from(all_num_input).forEach(function(input) {
+        input.addEventListener("input", function() {
+          clearInterval(autospins);
+          clearInterval(idozito);  
+          if (this.value < 0) {
+            this.value = 0;
+          }
+        });
+      });
+}
 
 function showMoneyRain(){
     money_rain_div.style.display = "block";
@@ -59,64 +78,72 @@ function listItemGenerator(){
 
 function playGame(){
     bet=bet_number.value;
-    if(balance-bet*lose_rate>=0){
-        for (let i = 0; i < lis_length; i++) {
-            const random_number=Math.floor(Math.random() * 2);
-            if (random_number===0) {
-                lis[i].innerHTML=`&#128553`;
-                emoji_array[i]="&#128553";
+    if (bet>0) {
+        bet_number.style.background="white";
+        bet_number.style.color="black";
+        if(balance-bet*lose_rate>=0){
+            spin_counter++;
+            for (let i = 0; i < lis_length; i++) {
+                const random_number=Math.floor(Math.random() * 2);
+                if (random_number===0) {
+                    lis[i].innerHTML=`&#128553`;
+                    emoji_array[i]="&#128553";
+                }
+                else if(random_number===1){
+                    lis[i].innerHTML=`&#129297`;
+                    emoji_array[i]="&#129297";
+                }
             }
-            else if(random_number===1){
-                lis[i].innerHTML=`&#129297`;
-                emoji_array[i]="&#129297";
-            }
+            winChecker();
         }
-        winChecker();
+        else{
+            uploadMoneyAlert();
+        }
     }
-    else{
-        uploadMoneyAlert();
-    }
-    
+    spins_span.innerHTML=spin_counter;
 }
 
 function autospinUpdater(){
-    if (autospin_value==0) {
+    bet=bet_number.value;
+    autospin_value=autospin_num.value;
+    
+    if (test_on && bet>0 && autospin_value>0) {
+        autospin_value--;
+    }
+    else {
         test_on=false;
         clearInterval(autospins);
         clearInterval(idozito);
-        
-    } else if(autospin_value>0){
-        autospin_value--;
     }
     autospin_num.value=autospin_value;
 }
 
+function numInput_amountChecker(){
+    Array.from(all_num_input).forEach(function(input) {
+        input.addEventListener("input", function() {
+          if (this.value <= 0) {
+            this.style.backgroundColor = "red";
+            this.style.color = "white";
+          }
+          else{
+            this.style.backgroundColor = "white";
+            this.style.color = "black";
+          }
+        });
+      });
+}
+
 autospin_btn.addEventListener('click', function() {
     autospin_value=autospin_num.value;
-    if (test_on) {
-        test_on=false;
-    }
-    else if(!test_on){
-        test_on=true;
-    }
     
-    if (test_on) {
-        if(autospin_value==0){
-            clearInterval(idozito);
-            clearInterval(autospins);
-        }
-        else if (autospin_value>0) {
-            autospins = setInterval(autospinUpdater, 400);
-            idozito = setInterval(playGame, 500);
-        }
-        else{
-            clearInterval(idozito);
-            clearInterval(autospins);
-        }
-    }
-    else if(!test_on || autospin_value==0){
-        clearInterval(idozito);
+    test_on=true;
+    if (test_on && autospin_value>0) {
+        autospins = setInterval(autospinUpdater, 248);
+        idozito = setInterval(playGame, 250);
+    } else{
+        test_on=false;
         clearInterval(autospins);
+        clearInterval(idozito);
     }
 });
 
