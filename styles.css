@@ -17,7 +17,9 @@ body{
     background-color: whitesmoke;
     display: flex;
     flex-direction: column;
-    border-radius:20px;
+    border: 20px solid transparent;
+    border-image: url('images/border_image.jpg') 100 repeat;
+    border-radius:15px;
     box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
     text-align: center;
     justify-content: center;
@@ -290,7 +292,7 @@ li{
 
 #autospin_btn:hover, #play_btn:hover {
   box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
-  transform: scale(1.05) rotate(-1deg);
+  
 }
 
 #autospin_num{
@@ -319,4 +321,23 @@ li{
     color:white;
     font-size: 1.2rem;
     margin-left: 10px;
+}
+
+#video_container {
+    position: absolute;
+    width: 100%;
+    height: 100%; /* A teljes viewport magassága */
+    overflow: hidden;
+    z-index: -20;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    object-fit: cover; /* A videó méretének automatikus méretezése a tartalomhoz */
+    z-index: -20;
 }

@@ -10,9 +10,11 @@ const money_rain_div=document.getElementById("money_rain_div");
 const autospin_num=document.getElementById("autospin_num");
 const all_num_input = document.querySelectorAll('input[type="number"]');
 const spins_span=document.getElementById("spins_span");
+const background_video = document.getElementById("background_vid");
 
 const win_rate=1.2;
 const lose_rate=1;
+const video_speed=0.5;
 
 let balance=100;
 let bet=1;
@@ -43,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
     spin_counter=0;
     numInputsEventListeners();
     numInput_amountChecker();
+    backgroundVidSpeed();
 });
 
 function numInputsEventListeners(){
@@ -63,6 +66,10 @@ function showMoneyRain(){
 
 function hideMoneyRain(){
     money_rain_div.style.display = "none";
+}
+
+function backgroundVidSpeed(){
+    background_video.playbackRate=video_speed;
 }
 
 function listItemGenerator(){
